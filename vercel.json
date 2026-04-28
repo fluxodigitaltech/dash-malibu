@@ -1,0 +1,27 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/pacto/(.*)",
+      "destination": "https://apigw.pactosolucoes.com.br/$1"
+    },
+    {
+      "source": "/api/uazapi/(.*)",
+      "destination": "https://fluxodigitaltech.uazapi.com/$1"
+    },
+    {
+      "source": "/api/sheety/(.*)",
+      "destination": "https://api.sheety.co/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/sync-pacto",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}

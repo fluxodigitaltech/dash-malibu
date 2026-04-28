@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentacao Completa API Pacto - Malibu BI</title>
+  <style>
+    @media print {
+      body { font-size: 10.5px; padding: 20px; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      .endpoint { break-inside: avoid; }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1a1a2e;
+      line-height: 1.6;
+      padding: 40px;
+      max-width: 920px;
+      margin: 0 auto;
+      background: #fff;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 3px solid #f28c1d;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .header h1 { font-size: 28px; font-weight: 900; color: #1a1a2e; letter-spacing: -0.5px; }
+    .header h1 span { color: #f28c1d; }
+    .header p { color: #666; font-size: 13px; margin-top: 4px; }
+    .print-btn {
+      position: fixed; top: 20px; right: 20px;
+      background: #f28c1d; color: #fff; border: none;
+      padding: 12px 24px; border-radius: 8px;
+      font-weight: 700; font-size: 14px; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(242,140,29,0.3);
+      z-index: 999;
+    }
+    .print-btn:hover { background: #d97a15; }
+    .toc { margin: 20px 0 30px; }
+    .toc a { color: #f28c1d; text-decoration: none; font-weight: 600; }
+    .toc a:hover { text-decoration: underline; }
+    .toc ol { margin-left: 24px; }
+    .toc li { margin: 4px 0; font-size: 14px; }
+    h2 {
+      font-size: 20px; color: #f28c1d;
+      margin: 36px 0 12px; padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+    h3 { font-size: 16px; color: #1a1a2e; margin: 22px 0 8px; }
+    h4 { font-size: 14px; color: #555; margin: 14px 0 6px; }
+    .endpoint {
+      background: #f8f9fa; border: 1px solid #e0e0e0;
+      border-left: 4px solid #f28c1d; border-radius: 6px;
+      padding: 16px 20px; margin: 12px 0;
+    }
+    .endpoint-title { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+    .method {
+      display: inline-block; background: #28a745; color: #fff;
+      font-size: 11px; font-weight: 700; padding: 2px 8px;
+      border-radius: 4px; margin-right: 6px;
+    }
+    .method.post { background: #007bff; }
+    .method.err { background: #dc3545; }
+    .url { font-family: 'Courier New', monospace; font-size: 13px; color: #333; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+    th, td { border: 1px solid #ddd; padding: 7px 10px; text-align: left; }
+    th { background: #1a1a2e; color: #fff; font-weight: 600; font-size: 12px; }
+    tr:nth-child(even) { background: #f8f9fa; }
+    code {
+      font-family: 'Courier New', monospace; font-size: 12px;
+      background: #f0f0f0; padding: 2px 6px; border-radius: 3px;
+    }
+    pre {
+      background: #1a1a2e; color: #e0e0e0; padding: 14px;
+      border-radius: 6px; overflow-x: auto; font-size: 12px;
+      line-height: 1.5; margin: 8px 0; white-space: pre-wrap; word-break: break-all;
+    }
+    pre .key { color: #82aaff; }
+    pre .str { color: #c3e88d; }
+    pre .num { color: #f78c6c; }
+    pre .comment { color: #666; font-style: italic; }
+    .note {
+      background: #fff8e1; border: 1px solid #ffe082;
+      border-radius: 6px; padding: 12px 16px; margin: 12px 0; font-size: 13px;
+    }
+    .note strong { color: #e65100; }
+    .note-red {
+      background: #ffeef0; border: 1px solid #f5c6cb;
+      border-radius: 6px; padding: 12px 16px; margin: 12px 0; font-size: 13px;
+    }
+    .note-red strong { color: #dc3545; }
+    .note-green {
+      background: #e8f5e9; border: 1px solid #a5d6a7;
+      border-radius: 6px; padding: 12px 16px; margin: 12px 0; font-size: 13px;
+    }
+    .note-green strong { color: #2e7d32; }
+    ul, ol { margin: 8px 0 8px 24px; }
+    li { margin: 3px 0; font-size: 13px; }
+    .section-intro { font-size: 14px; color: #444; margin-bottom: 16px; }
+    .badge {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px; margin-left: 6px;
+    }
+    .badge-ok { background: #e8f5e9; color: #2e7d32; }
+    .badge-warn { background: #fff8e1; color: #e65100; }
+    .badge-err { background: #ffeef0; color: #dc3545; }
+  </style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Salvar como PDF</button>
+
+<div class="header">
+  <h1>MALIBU <span>BI</span> &mdash; Documentacao Tecnica Completa</h1>
+  <p>Toda a inteligencia sobre a API Pacto: endpoints, autenticacao, logica de contagem, divergencias e workarounds</p>
+  <p style="margin-top:8px; font-size:12px; color:#999;">Versao 1.0 &mdash; Abril 2026</p>
+</div>
+
+<!-- INDICE -->
+<div class="toc">
+  <h3>Indice</h3>
+  <ol>
+    <li><a href="#s1">Arquitetura e Infraestrutura</a></li>
+    <li><a href="#s2">Autenticacao (Tokens e JWT)</a></li>
+    <li><a href="#s3">Unidades e Configuracao</a></li>
+    <li><a href="#s4">Endpoint Principal: /clientes</a></li>
+    <li><a href="#s5">Sistema de Status (situacao vs situacaoContrato)</a></li>
+    <li><a href="#s6">Logica de Contagem (Como contamos ativos, inadimplentes, etc.)</a></li>
+    <li><a href="#s7">Faturamento: /v1/bi/resumo</a></li>
+    <li><a href="#s8">Gympass/Wellhub: /v2-gym-pass</a></li>
+    <li><a href="#s9">Movimentacao de Contratos (Fonte Autoritativa)</a></li>
+    <li><a href="#s10">Descoberta de Empresa ID</a></li>
+    <li><a href="#s11">Tokens Compartilhados (Mogi Guacu/Araras)</a></li>
+    <li><a href="#s12">Fluxo Completo de Sincronizacao</a></li>
+    <li><a href="#s13">Rate Limiting e Retry</a></li>
+    <li><a href="#s14">Divergencias e Causa Raiz</a></li>
+    <li><a href="#s15">Dados Coletados por Unidade (Abril/2026)</a></li>
+    <li><a href="#s16">Todos os Endpoints Testados</a></li>
+    <li><a href="#s17">Exemplos cURL</a></li>
+    <li><a href="#s18">Problemas Conhecidos e Solucoes Futuras</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s1">1. Arquitetura e Infraestrutura</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">
+  O Dashboard Malibu BI e uma SPA (Single Page Application) React/TypeScript hospedada na Vercel.
+  Todas as chamadas a API do Pacto passam por um proxy reverso (rewrite) da Vercel para contornar restricoes de CORS.
+</p>
+
+<h4>Diagrama de fluxo</h4>
+<pre>
+Browser (React App)
+    |
+    | fetch("/api/pacto/clientes?page=0&size=2000")
+    v
+Vercel Proxy (vercel.json rewrite)
+    |
+    | rewrite: /api/pacto/(.*) -> https://apigw.pactosolucoes.com.br/$1
+    v
+Pacto API Gateway (apigw.pactosolucoes.com.br)
+    |
+    | Bearer Token auth
+    v
+Dados retornados ao browser
+</pre>
+
+<h4>Configuracao do Proxy (vercel.json)</h4>
+<pre>{
+  <span class="key">"rewrites"</span>: [
+    {
+      <span class="key">"source"</span>: <span class="str">"/api/pacto/(.*)"</span>,
+      <span class="key">"destination"</span>: <span class="str">"https://apigw.pactosolucoes.com.br/$1"</span>
+    },
+    {
+      <span class="key">"source"</span>: <span class="str">"/api/sheety/(.*)"</span>,
+      <span class="key">"destination"</span>: <span class="str">"https://api.sheety.co/$1"</span>
+    }
+  ],
+  <span class="key">"crons"</span>: [
+    { <span class="key">"path"</span>: <span class="str">"/api/sync-pacto"</span>, <span class="key">"schedule"</span>: <span class="str">"0 */6 * * *"</span> }
+  ]
+}</pre>
+
+<table>
+  <tr><th>Item</th><th>Valor</th></tr>
+  <tr><td>API Gateway Pacto</td><td><code>https://apigw.pactosolucoes.com.br</code></td></tr>
+  <tr><td>Proxy Vercel</td><td><code>https://dash-malibu-sj93.vercel.app/api/pacto/*</code></td></tr>
+  <tr><td>Sheety (fallback Gympass)</td><td><code>https://api.sheety.co/*</code></td></tr>
+  <tr><td>Sync automatico</td><td>A cada 6 horas (cron Vercel)</td></tr>
+  <tr><td>Frontend</td><td>React + TypeScript + Vite + Tailwind + shadcn/ui</td></tr>
+  <tr><td>Auth</td><td>Supabase (email + password)</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s2">2. Autenticacao (Tokens e JWT)</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">Cada unidade da academia possui um Bearer Token unico fornecido pelo Pacto. Os tokens sao JWTs que podem ser decodificados para extrair informacoes sobre permissoes.</p>
+
+<h4>Como usar o token</h4>
+<pre>Authorization: Bearer {TOKEN_DA_UNIDADE}</pre>
+
+<h4>Estrutura do JWT (payload decodificado)</h4>
+<pre>{
+  <span class="key">"user_name"</span>: <span class="str">"api@malibu.com"</span>,
+  <span class="key">"scope"</span>: [<span class="str">"read"</span>, <span class="str">"write"</span>],
+  <span class="key">"exp"</span>: <span class="num">1735689600</span>,          <span class="comment">// expiracao (timestamp)</span>
+  <span class="key">"authorities"</span>: [
+    <span class="str">"adm:clientes:consultar"</span>,
+    <span class="str">"adm:clientes:cadastrar"</span>,
+    <span class="str">"adm:business-intelligence:bi-administrativo:consultar"</span>,
+    <span class="comment">// ... outras permissoes</span>
+  ],
+  <span class="key">"client_id"</span>: <span class="str">"pacto-api"</span>
+}</pre>
+
+<h4>Permissoes importantes (scopes)</h4>
+<table>
+  <tr><th>Permissao</th><th>O que libera</th><th>Status</th></tr>
+  <tr><td><code>adm:clientes:consultar</code></td><td>GET /clientes (listagem)</td><td><span class="badge badge-ok">OK</span></td></tr>
+  <tr><td><code>adm:clientes:cadastrar</code></td><td>POST /clientes (cadastro)</td><td><span class="badge badge-ok">OK</span></td></tr>
+  <tr><td><code>adm:business-intelligence:bi-administrativo:consultar</code></td><td>/v1/bi/resumo e /movimentacao-contrato</td><td><span class="badge badge-warn">Parcial</span></td></tr>
+</table>
+
+<h4>Armazenamento dos tokens</h4>
+<p>Os tokens sao armazenados como variaveis de ambiente no Vercel (prefixo <code>VITE_PACTO_*</code>):</p>
+<pre>
+VITE_PACTO_AMERICANAS_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_MOGIGUACU_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_ARACATUBA_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_PIRACICABA_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_PRESIDENTE_PRUDENTE_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_SAO_JOAO_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_ARARAS_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_MOGIMIRIM_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_PAULINIA_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_24HORAS_API_TOKEN=eyJhbGciOi...
+VITE_PACTO_SOROCABA_API_TOKEN=eyJhbGciOi...
+</pre>
+
+<div class="note">
+  <strong>Atencao:</strong> Por serem prefixados com <code>VITE_</code>, esses tokens ficam expostos no bundle do frontend.
+  Isso e uma decisao de arquitetura — o proxy Vercel mascara a URL do Pacto, mas o token e visivel no JavaScript do browser.
+  Idealmente os tokens deveriam ficar em uma API Route server-side.
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s3">3. Unidades e Configuracao</h2>
+<!-- ============================================================ -->
+
+<table>
+  <tr>
+    <th>Unidade</th>
+    <th>Variavel de Ambiente</th>
+    <th>empresaId</th>
+    <th>empresaNome (filtro)</th>
+    <th>Obs</th>
+  </tr>
+  <tr><td>Americanas</td><td><code>VITE_PACTO_AMERICANAS_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Mogi Guacu</td><td><code>VITE_PACTO_MOGIGUACU_API_TOKEN</code></td><td>1</td><td>MOGI GUACU</td><td>Token compartilhado</td></tr>
+  <tr><td>Aracatuba</td><td><code>VITE_PACTO_ARACATUBA_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Piracicaba</td><td><code>VITE_PACTO_PIRACICABA_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Pres. Prudente</td><td><code>VITE_PACTO_PRESIDENTE_PRUDENTE_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Sao Joao</td><td><code>VITE_PACTO_SAO_JOAO_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Araras</td><td><code>VITE_PACTO_ARARAS_API_TOKEN</code></td><td>2</td><td>ARARAS</td><td>Token compartilhado</td></tr>
+  <tr><td>Mogi Mirim</td><td><code>VITE_PACTO_MOGIMIRIM_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Paulinia</td><td><code>VITE_PACTO_PAULINIA_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Malibu 24 Horas</td><td><code>VITE_PACTO_24HORAS_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+  <tr><td>Sorocaba</td><td><code>VITE_PACTO_SOROCABA_API_TOKEN</code></td><td>1</td><td>-</td><td>Token exclusivo</td></tr>
+</table>
+
+<div class="note">
+  <strong>empresaId:</strong> O campo <code>empresaId</code> e enviado como header nas requisicoes de BI (<code>/v1/bi/resumo</code>).
+  Foi descoberto via <code>/psec/empresas/ativas</code> e <code>/psec/empresas/empdto/{id}</code>.
+  Quase todas as unidades usam empresaId=1. Araras (token compartilhado com Mogi Guacu) usa empresaId=2.
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s4">4. Endpoint Principal: /clientes</h2>
+<!-- ============================================================ -->
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/clientes?page={page}&size={size}</span>
+    <span class="badge badge-ok">PRINCIPAL</span>
+  </div>
+
+  <p><strong>Descricao:</strong> Retorna todos os clientes/alunos da unidade de forma paginada. E a fonte principal de todos os dados do dashboard (ativos, inadimplentes, visitantes, vencimentos).</p>
+
+  <h4>Headers obrigatorios</h4>
+  <table>
+    <tr><th>Header</th><th>Valor</th><th>Obrigatorio</th></tr>
+    <tr><td><code>Authorization</code></td><td><code>Bearer {token}</code></td><td>Sim</td></tr>
+    <tr><td><code>accept</code></td><td><code>application/json</code></td><td>Sim</td></tr>
+    <tr><td><code>empresaId</code></td><td><code>1</code> ou <code>2</code></td><td>Nao (nao filtra resultados neste endpoint)</td></tr>
+  </table>
+
+  <h4>Parametros de query</h4>
+  <table>
+    <tr><th>Parametro</th><th>Tipo</th><th>Descricao</th><th>Exemplo</th></tr>
+    <tr><td><code>page</code></td><td>number</td><td>Pagina (comeca em 0)</td><td>0</td></tr>
+    <tr><td><code>size</code></td><td>number</td><td>Registros por pagina (maximo testado: 2000)</td><td>2000</td></tr>
+    <tr><td><code>nome</code></td><td>string</td><td>Busca por nome (parcial)</td><td>Joao</td></tr>
+  </table>
+
+  <div class="note-red">
+    <strong>Parametros que NAO funcionam:</strong>
+    <ul>
+      <li><code>?situacao=ATIVO</code> &mdash; Retorna HTTP 500 (bug do Pacto)</li>
+      <li><code>?empresaId=X</code> (como query param) &mdash; Ignorado, retorna todos</li>
+      <li>Header <code>empresaId</code> &mdash; Ignorado neste endpoint, retorna todos os clientes do token</li>
+    </ul>
+  </div>
+
+  <h4>Resposta completa</h4>
+<pre>{
+  <span class="key">"content"</span>: [
+    {
+      <span class="key">"codigoCliente"</span>: <span class="num">12345</span>,
+      <span class="key">"nome"</span>: <span class="str">"Joao da Silva"</span>,
+      <span class="key">"email"</span>: <span class="str">"joao@email.com"</span>,
+      <span class="key">"telefone"</span>: <span class="str">"(19) 99999-0000"</span>,
+      <span class="key">"matricula"</span>: <span class="num">789</span>,
+      <span class="key">"situacao"</span>: <span class="str">"ATIVO"</span>,              <span class="comment">// Status simplificado</span>
+      <span class="key">"situacaoContrato"</span>: <span class="str">"NORMAL"</span>,      <span class="comment">// Status detalhado do contrato</span>
+      <span class="key">"empresa"</span>: <span class="str">"ACAD. MALIBU UNID. ARARAS - SP"</span>,  <span class="comment">// Nome (nao ID!)</span>
+      <span class="key">"categoria"</span>: <span class="str">"MENSAL"</span>,
+      <span class="key">"inicioContrato"</span>: <span class="num">1764298800000</span>,   <span class="comment">// timestamp ms (28/01/2026)</span>
+      <span class="key">"fimContrato"</span>: <span class="num">1795748400000</span>,      <span class="comment">// timestamp ms (28/11/2026)</span>
+      <span class="key">"urlFoto"</span>: <span class="str">"https://..."</span>
+    }
+  ],
+  <span class="key">"totalElements"</span>: <span class="num">5981</span>,      <span class="comment">// Total de registros</span>
+  <span class="key">"totalPages"</span>: <span class="num">3</span>              <span class="comment">// Total de paginas</span>
+}</pre>
+
+  <h4>Todos os campos retornados por cliente</h4>
+  <table>
+    <tr><th>Campo</th><th>Tipo</th><th>Descricao</th><th>Exemplo</th></tr>
+    <tr><td><code>codigoCliente</code></td><td>number</td><td>ID unico do cliente</td><td>12345</td></tr>
+    <tr><td><code>nome</code></td><td>string</td><td>Nome completo</td><td>"Joao da Silva"</td></tr>
+    <tr><td><code>email</code></td><td>string</td><td>Email</td><td>"joao@email.com"</td></tr>
+    <tr><td><code>telefone</code></td><td>string</td><td>Telefone</td><td>"(19) 99999-0000"</td></tr>
+    <tr><td><code>matricula</code></td><td>number</td><td>Numero de matricula</td><td>789</td></tr>
+    <tr><td><code>situacao</code></td><td>string</td><td>Status simplificado do cliente</td><td>"ATIVO"</td></tr>
+    <tr><td><code>situacaoContrato</code></td><td>string</td><td>Status detalhado do contrato</td><td>"NORMAL"</td></tr>
+    <tr><td><code>empresa</code></td><td>string</td><td>Nome da empresa (nao e ID!)</td><td>"ACAD. MALIBU UNID. ARARAS - SP"</td></tr>
+    <tr><td><code>categoria</code></td><td>string</td><td>Tipo de plano</td><td>"MENSAL"</td></tr>
+    <tr><td><code>inicioContrato</code></td><td>number</td><td>Data inicio contrato (timestamp ms)</td><td>1764298800000</td></tr>
+    <tr><td><code>fimContrato</code></td><td>number</td><td>Data fim contrato (timestamp ms)</td><td>1795748400000</td></tr>
+    <tr><td><code>urlFoto</code></td><td>string</td><td>URL da foto do aluno</td><td>"https://..."</td></tr>
+  </table>
+
+  <h4>Paginacao</h4>
+  <p>Usamos <code>size=2000</code> (maximo testado que funciona). Media por unidade:</p>
+  <ul>
+    <li>Paulinia: ~2 paginas (4.174 registros)</li>
+    <li>Malibu 24h: ~7 paginas (13.802 registros)</li>
+    <li>Mogi Guacu + Araras (token compartilhado): ~10 paginas (18.894 registros)</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s5">5. Sistema de Status (situacao vs situacaoContrato)</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">O Pacto tem DOIS sistemas de status que funcionam de forma independente. Entender a diferenca e fundamental.</p>
+
+<h3>5.1 Campo: <code>situacao</code> (status do CLIENTE)</h3>
+<p>Status simplificado que a API retorna. Tem poucos valores possiveis:</p>
+<table>
+  <tr><th>Valor</th><th>Significado</th><th>Como contamos</th><th>Quantidade tipica</th></tr>
+  <tr><td><code>ATIVO</code></td><td>Cliente com contrato ativo</td><td><strong>Ativos</strong></td><td>~60-70% dos nao-visitantes</td></tr>
+  <tr><td><code>INATIVO</code></td><td>Cliente sem contrato ativo</td><td><strong>Expirados</strong></td><td>Variavel</td></tr>
+  <tr><td><code>VISITANTE</code></td><td>Pessoa em teste/visita (nunca assinou)</td><td><strong>Visitantes</strong></td><td>Maioria dos registros</td></tr>
+  <tr><td><code>CANCELADO</code></td><td>Contrato cancelado</td><td><strong>Expirados</strong></td><td>Raro (maioria vem como INATIVO)</td></tr>
+  <tr><td><code>TRANCADO</code></td><td>Contrato temporariamente trancado</td><td><strong>Outros</strong></td><td>Muito raro (1-3 por unidade)</td></tr>
+</table>
+
+<h3>5.2 Campo: <code>situacaoContrato</code> (status do CONTRATO)</h3>
+<p>Status mais detalhado do contrato. Corresponde aos codigos internos do Pacto:</p>
+<table>
+  <tr><th>Valor API</th><th>Codigo Interno Pacto</th><th>Significado</th><th>Contrato ativo?</th></tr>
+  <tr><td><code>NORMAL</code></td><td>NO</td><td>Contrato ativo e regular</td><td style="color:green; font-weight:700">Sim</td></tr>
+  <tr><td><code>A_VENCER</code></td><td>AV</td><td>Contrato proximo do vencimento</td><td style="color:green; font-weight:700">Sim</td></tr>
+  <tr><td><code>FERIAS</code></td><td>CR</td><td>Cliente em ferias (afastamento temporario)</td><td style="color:green; font-weight:700">Sim</td></tr>
+  <tr><td><code>ATESTADO</code></td><td>AT</td><td>Cliente com atestado medico</td><td style="color:green; font-weight:700">Sim</td></tr>
+  <tr><td><em>(nao exposto)</em></td><td>RN</td><td>Renovado (mudou de plano)</td><td style="color:green; font-weight:700">Sim</td></tr>
+  <tr><td><code>INATIVO_VENCIDO</code></td><td>VE</td><td>Contrato vencido (inadimplente)</td><td style="color:red; font-weight:700">Nao</td></tr>
+  <tr><td><code>DESISTENTE</code></td><td>DE</td><td>Cliente desistiu</td><td style="color:red; font-weight:700">Nao</td></tr>
+  <tr><td><code>CANCELADO</code></td><td>CA</td><td>Contrato cancelado</td><td style="color:red; font-weight:700">Nao</td></tr>
+  <tr><td><code>NULL</code></td><td>-</td><td>Visitantes (sem contrato)</td><td>N/A</td></tr>
+</table>
+
+<div class="note-red">
+  <strong>PROBLEMA CRITICO - Status "Renovado" (RN):</strong><br>
+  O codigo interno RN (Renovado) NAO e exposto pela API /clientes. Clientes com esse status interno
+  aparecem como <code>situacao=INATIVO</code> na API, mas o Pacto BI os conta como ATIVOS.
+  Isso causa divergencia de contagem que nao pode ser resolvida sem o endpoint <code>/movimentacao-contrato</code>.
+</div>
+
+<h3>5.3 Cruzamento: situacao x situacaoContrato</h3>
+<p>Na pratica, a relacao mais comum e:</p>
+<table>
+  <tr><th>situacao</th><th>situacaoContrato tipico</th><th>Observacao</th></tr>
+  <tr><td>ATIVO</td><td>NORMAL, A_VENCER, FERIAS, ATESTADO</td><td>O esperado</td></tr>
+  <tr><td>INATIVO</td><td>DESISTENTE, CANCELADO, INATIVO_VENCIDO</td><td>O esperado</td></tr>
+  <tr><td>INATIVO</td><td>NORMAL, A_VENCER</td><td><strong>Anomalia!</strong> Possivelmente "Renovado" (RN)</td></tr>
+  <tr><td>VISITANTE</td><td>NULL</td><td>Visitantes nao tem contrato</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s6">6. Logica de Contagem</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">A contagem segue a mesma logica para todas as 11 unidades. Validada contra Paulinia (799 ativos = 100% match com Pacto BI), Mogi Mirim (1244) e Malibu 24h (669).</p>
+
+<h3>6.1 Classificacao de clientes</h3>
+<pre><span class="comment">// Para cada cliente retornado pela API:</span>
+
+<span class="key">SE</span> situacao == <span class="str">"ATIVO"</span>:
+    &rarr; Contado como <span class="str">ATIVO</span>
+    &rarr; Verifica fimContrato para buckets de vencimento
+
+<span class="key">SENAO SE</span> situacaoContrato == <span class="str">"INATIVO_VENCIDO"</span>:
+    &rarr; Contado como <span class="str">INADIMPLENTE</span>
+    &rarr; Calcula meses de atraso
+
+<span class="key">SENAO SE</span> situacao == <span class="str">"VISITANTE"</span>:
+    &rarr; Contado como <span class="str">VISITANTE</span>
+
+<span class="key">SENAO SE</span> situacao == <span class="str">"CANCELADO"</span> ou <span class="str">"INATIVO"</span>:
+    &rarr; Contado como <span class="str">EXPIRADO</span>
+
+<span class="key">SENAO</span>:
+    &rarr; Contado como <span class="str">OUTRO</span></pre>
+
+<div class="note-green">
+  <strong>Por que usamos <code>situacao</code> e nao <code>situacaoContrato</code> para ativos?</strong><br>
+  Testamos ambos. Contar por <code>situacao=ATIVO</code> bate exatamente com Paulinia (799).
+  Contar por <code>situacaoContrato=NORMAL+A_VENCER</code> daria 786 para Paulinia (13 a menos),
+  porque alguns clientes ATIVO tem contrato com status FERIAS, ATESTADO, etc.
+</div>
+
+<h3>6.2 Buckets de vencimento (para ativos)</h3>
+<table>
+  <tr><th>Bucket</th><th>Condicao</th></tr>
+  <tr><td>Vencendo hoje</td><td><code>fimContrato.toDateString() == hoje.toDateString()</code></td></tr>
+  <tr><td>Vencendo no mes</td><td><code>fimContrato > hoje AND fimContrato <= fimDoMes</code></td></tr>
+  <tr><td>Vencendo em 3 meses</td><td><code>fimContrato >= hoje AND fimContrato <= hoje+3meses</code></td></tr>
+</table>
+
+<h3>6.3 Buckets de inadimplencia (para INATIVO_VENCIDO)</h3>
+<table>
+  <tr><th>Bucket</th><th>Condicao (meses desde vencimento)</th></tr>
+  <tr><td>1 mes</td><td>diff &lt; 2 meses</td></tr>
+  <tr><td>2 meses</td><td>2 &le; diff &lt; 3 meses</td></tr>
+  <tr><td>3 meses</td><td>3 &le; diff &lt; 4 meses</td></tr>
+  <tr><td>4+ meses</td><td>diff &ge; 4 meses</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s7">7. Faturamento: /v1/bi/resumo</h2>
+<!-- ============================================================ -->
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/v1/bi/resumo?mesInicial={YYYY-MM}&mesFinal={YYYY-MM}</span>
+    <span class="badge badge-ok">ATIVO</span>
+  </div>
+
+  <p><strong>Descricao:</strong> Retorna dados de faturamento/receita para um range de meses. Usamos para puxar mes atual + mes anterior em uma unica chamada.</p>
+
+  <h4>Headers</h4>
+  <table>
+    <tr><th>Header</th><th>Valor</th><th>Obrigatorio</th><th>Obs</th></tr>
+    <tr><td><code>Authorization</code></td><td><code>Bearer {token}</code></td><td>Sim</td><td></td></tr>
+    <tr><td><code>accept</code></td><td><code>application/json</code></td><td>Sim</td><td></td></tr>
+    <tr><td><code>empresaId</code></td><td><code>1</code> ou <code>2</code></td><td><strong>Sim</strong></td><td>Diferente de /clientes, aqui ele FUNCIONA!</td></tr>
+  </table>
+
+  <h4>Exemplo de chamada</h4>
+  <pre>GET /v1/bi/resumo?mesInicial=2026-03&mesFinal=2026-04
+Authorization: Bearer {token}
+empresaId: 1</pre>
+
+  <h4>Resposta</h4>
+<pre>{
+  <span class="key">"content"</span>: [
+    {
+      <span class="key">"mes"</span>: <span class="str">"2026-04"</span>,
+      <span class="key">"recebiveis"</span>: <span class="num">105118.98</span>,
+      <span class="key">"totalReceita"</span>: <span class="num">105118.98</span>,
+      <span class="key">"contasReceberPorDataQuitacao"</span>: <span class="num">0</span>,
+      <span class="key">"contasReceberPorDataLancamento"</span>: <span class="num">0</span>,
+      <span class="key">"faturamentoPorDataLancamento"</span>: <span class="num">0</span>
+    },
+    {
+      <span class="key">"mes"</span>: <span class="str">"2026-03"</span>,
+      <span class="key">"recebiveis"</span>: <span class="num">98500.00</span>,
+      <span class="key">"totalReceita"</span>: <span class="num">98500.00</span>
+    }
+  ]
+}</pre>
+
+  <h4>Campos de receita (ordem de prioridade / fallback)</h4>
+  <ol>
+    <li><code>totalReceita</code> (mais comum)</li>
+    <li><code>totalFaturamento</code></li>
+    <li><code>totalCompetencia</code></li>
+    <li><code>recebiveis</code></li>
+    <li><code>receitaTotal</code></li>
+    <li><code>receita</code></li>
+    <li><code>contasReceberPorDataQuitacao</code></li>
+  </ol>
+
+  <h4>Estrategia de fallback</h4>
+  <ol>
+    <li>Tenta com header <code>empresaId</code> configurado</li>
+    <li>Se receita = 0, tenta sem header (alguns tokens funcionam assim)</li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s8">8. Gympass/Wellhub: /v2-gym-pass</h2>
+<!-- ============================================================ -->
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method post">POST</span>
+    <span class="url">/v2-gym-pass</span>
+    <span class="badge badge-err">HTTP 500</span>
+  </div>
+
+  <p><strong>Descricao:</strong> Retorna contagem de acessos Gympass/Wellhub em um periodo.</p>
+
+  <h4>Headers</h4>
+  <table>
+    <tr><th>Header</th><th>Valor</th></tr>
+    <tr><td><code>Authorization</code></td><td><code>Bearer {token}</code></td></tr>
+    <tr><td><code>Content-Type</code></td><td><code>application/json</code></td></tr>
+  </table>
+
+  <h4>Body</h4>
+<pre>{
+  <span class="key">"dataInicio"</span>: <span class="str">"2026-04-01"</span>,
+  <span class="key">"dataFim"</span>: <span class="str">"2026-04-30"</span>
+}</pre>
+
+  <h4>Formatos de resposta possiveis (quando funcionava)</h4>
+  <ul>
+    <li>Numero direto: <code>42</code></li>
+    <li>Array de registros: <code>[{...}, {...}]</code> &rarr; count = array.length</li>
+    <li>Paginado: <code>{ totalElements: 42, content: [...] }</code></li>
+    <li>Objeto com campo: <code>{ total: 42 }</code> ou <code>{ quantidade: 42 }</code> ou <code>{ count: 42 }</code></li>
+    <li>Objeto com acessos: <code>{ acessos: 42 }</code> ou <code>{ alunos: [...] }</code></li>
+  </ul>
+
+  <div class="note-red">
+    <strong>Status atual (Abril/2026):</strong> Retorna HTTP 500 em TODAS as 11 unidades.
+    Os dados de Gympass/Wellhub estao sendo puxados de uma planilha Google Sheets via Sheety como fallback.
+  </div>
+
+  <h4>Fallback: Sheety (Google Sheets)</h4>
+  <p>Dados de agregadores e receita Wellhub sao mantidos manualmente em uma planilha Google Sheets e acessados via API Sheety:</p>
+  <pre>GET https://api.sheety.co/{spreadsheet_id}/{sheet_name}</pre>
+  <p>Campos lidos: unidade, agregadores (quantidade), receita Wellhub (R$), mes de referencia.</p>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s9">9. Movimentacao de Contratos (Fonte Autoritativa)</h2>
+<!-- ============================================================ -->
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/movimentacao-contrato?indicador={INDICADOR}&page=0&size=1</span>
+    <span class="badge badge-err">HTTP 500</span>
+  </div>
+
+  <p><strong>Descricao:</strong> Este e o <strong>mesmo endpoint</strong> que o Pacto BI usa internamente na tela "Movimentacao de Contratos".
+     Retorna <code>totalElements</code> com a contagem exata. Seria a fonte autoritativa perfeita.</p>
+
+  <h4>Indicadores disponiveis</h4>
+  <table>
+    <tr><th>Indicador</th><th>Descricao</th><th>O que retornaria</th></tr>
+    <tr><td><code>CONTRATOS_ATIVOS_MES_ATUAL</code></td><td>Contratos ativos agora</td><td>Numero exato que o Pacto BI mostra</td></tr>
+    <tr><td><code>CONTRATOS_VENCIDOS_MES_ANTERIOR</code></td><td>Contratos que venceram mes passado</td><td>Vencidos</td></tr>
+    <tr><td><code>CANCELADOS_ATE_HOJE</code></td><td>Total de cancelamentos historico</td><td>Cancelados acumulado</td></tr>
+    <tr><td><code>MATRICULADOS_ATE_HOJE</code></td><td>Total de matriculas historico</td><td>Matriculados acumulado</td></tr>
+    <tr><td><code>TRANCADOS_ATE_HOJE</code></td><td>Contratos trancados agora</td><td>Trancados</td></tr>
+    <tr><td><code>AGREGADORES_VINCULADOS_ATE_HOJE</code></td><td>Gympass/Wellhub vinculados</td><td>Total agregadores</td></tr>
+  </table>
+
+  <h4>Permissao necessaria</h4>
+  <pre>adm:business-intelligence:bi-administrativo:consultar</pre>
+
+  <div class="note-red">
+    <strong>Status (Abril/2026):</strong> Retorna HTTP 500 em TODAS as unidades, inclusive com tokens que possuem a permissao necessaria.
+    Testamos com tokens de permissao total para Araras e Mogi Guacu &mdash; mesmo resultado.
+    <strong>E um bug no servidor do Pacto</strong>, nao um problema de autenticacao ou permissao.
+  </div>
+
+  <div class="note-green">
+    <strong>Quando este endpoint for corrigido:</strong> Basta habilitar <code>MOVIMENTACAO_ENABLED = true</code>
+    no codigo (<code>pactoSync.ts</code>) e o dashboard usara esses numeros diretamente,
+    eliminando 100% das divergencias.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s10">10. Descoberta de Empresa ID</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">O empresaId e necessario para o endpoint de BI (<code>/v1/bi/resumo</code>). Ele foi descoberto testando varios endpoints de introspeccao.</p>
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/psec/empresas/ativas</span>
+  </div>
+  <p>Retorna lista de empresas ativas vinculadas ao token. Usado para mapear token &rarr; empresaId.</p>
+</div>
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/psec/empresas/empdto/{id}</span>
+  </div>
+  <p>Retorna detalhes de uma empresa pelo ID numerico. Testamos IDs de 1 a 30 para cada token.</p>
+</div>
+
+<div class="endpoint">
+  <div class="endpoint-title">
+    <span class="method">GET</span>
+    <span class="url">/empresa/empresas</span>
+  </div>
+  <p>Lista empresas do token. Retorna nome, CNPJ, endereco. Alternativa ao /psec/empresas.</p>
+</div>
+
+<h4>Resultado do mapeamento</h4>
+<table>
+  <tr><th>Unidade</th><th>empresaId descoberto</th><th>Metodo</th></tr>
+  <tr><td>Americanas, Aracatuba, Piracicaba, Pres. Prudente, Sao Joao, Mogi Mirim, Paulinia, 24h, Sorocaba</td><td>1</td><td>/psec/empresas/ativas</td></tr>
+  <tr><td>Mogi Guacu</td><td>1</td><td>/psec/empresas/empdto/1 (token compartilhado)</td></tr>
+  <tr><td>Araras</td><td>2</td><td>/psec/empresas/empdto/2 (token compartilhado)</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s11">11. Tokens Compartilhados (Mogi Guacu / Araras)</h2>
+<!-- ============================================================ -->
+
+<p class="section-intro">Mogi Guacu e Araras compartilham o <strong>mesmo token</strong>. Isso significa que <code>GET /clientes</code> retorna registros de AMBAS as unidades misturados (~18.894 registros).</p>
+
+<h3>Como separamos os dados</h3>
+
+<ol>
+  <li><strong>Campo <code>empresa</code> da API:</strong> Cada registro vem com o nome completo da empresa.
+    <ul>
+      <li>Mogi Guacu: <code>"ACAD. MALIBU UNID. MOGI GUACU - SP"</code></li>
+      <li>Araras: <code>"ACAD. MALIBU UNID. ARARAS - SP"</code></li>
+    </ul>
+  </li>
+  <li><strong>Filtro por substring:</strong> Salvamos o campo original em <code>_rawEmpresa</code> e filtramos:
+    <ul>
+      <li>Mogi Guacu: <code>_rawEmpresa.includes("MOGI GUACU")</code> &rarr; 11.732 registros</li>
+      <li>Araras: <code>_rawEmpresa.includes("ARARAS")</code> &rarr; 7.162 registros</li>
+      <li>Total: 11.732 + 7.162 = 18.894 (bate com o total)</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>Tentativas que NAO funcionaram</h3>
+<table>
+  <tr><th>Tentativa</th><th>Resultado</th></tr>
+  <tr><td>Header <code>empresaId: 1</code> ou <code>empresaId: 2</code></td><td>Ignorado &mdash; retorna 18.894 em ambos</td></tr>
+  <tr><td>Query param <code>?empresaId=1</code></td><td>Ignorado &mdash; retorna 18.894</td></tr>
+  <tr><td>Deduplicacao por fingerprint</td><td>Removia Araras inteira (dados identicos na mesma resposta)</td></tr>
+</table>
+
+<div class="note">
+  <strong>BI (<code>/v1/bi/resumo</code>):</strong> Diferente de /clientes, o endpoint de BI <strong>respeita</strong> o header empresaId.
+  Mogi Guacu usa empresaId=1, Araras usa empresaId=2, e cada um retorna sua receita corretamente.
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s12">12. Fluxo Completo de Sincronizacao</h2>
+<!-- ============================================================ -->
+
+<pre><span class="comment">// Arquivo: src/utils/pactoSync.ts</span>
+<span class="comment">// Executado a cada 6h (cron) ou ao abrir o dashboard</span>
+
+<span class="key">INICIO</span>
+  |
+  v
+<span class="key">PASS 1</span> — Coleta de Clientes (paralelo por unidade)
+  |  Para cada unidade (11x):
+  |    GET /clientes?page=0&size=2000
+  |    GET /clientes?page=1&size=2000
+  |    ... (ate totalPages)
+  |  Filtrar por empresaNome (tokens compartilhados)
+  |  Classificar cada cliente (ATIVO/INADIMPLENTE/VISITANTE/EXPIRADO)
+  |  Calcular buckets de vencimento
+  v
+<span class="key">PASS 2</span> — Faturamento + Gympass (paralelo por unidade)
+  |  Para cada unidade:
+  |    GET /v1/bi/resumo?mesInicial=YYYY-MM&mesFinal=YYYY-MM
+  |    POST /v2-gym-pass (fallback: Sheety)
+  |  Override contagens se /rel-clientes/situacao disponivel
+  v
+<span class="key">PASS 3</span> — Agregacao
+  |  Somar todas as metricas em "Todas as Unidades"
+  |  Salvar no state do React
+  v
+<span class="key">FIM</span> — Dashboard renderizado
+
+Tempo total: ~30-60 segundos (depende da velocidade da API)
+Total de requests: ~40 GET (clientes) + 11 GET (BI) + 11 POST (gympass) = ~62 requests</pre>
+
+<!-- ============================================================ -->
+<h2 id="s13">13. Rate Limiting e Retry</h2>
+<!-- ============================================================ -->
+
+<h3>Rate Limiting</h3>
+<ul>
+  <li><strong>1 requisicao por segundo por token</strong> (1000ms de intervalo)</li>
+  <li>Cada token tem seu proprio rate limiter (tokens diferentes podem fazer requests em paralelo)</li>
+  <li>Implementado com fila de promises (classe <code>RateLimiter</code>)</li>
+</ul>
+
+<h3>Retry automatico</h3>
+<ul>
+  <li>HTTP 429 (Too Many Requests): re-tenta ate 3x com 4 segundos de espera</li>
+  <li>Outros erros HTTP: nao re-tenta (para evitar loops)</li>
+  <li>Timeout de rede: capturado pelo try/catch, unidade marcada com erro</li>
+</ul>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s14">14. Divergencias e Causa Raiz</h2>
+<!-- ============================================================ -->
+
+<h3>14.1 Comparacao Dashboard BI vs Pacto BI (Abril/2026)</h3>
+
+<table>
+  <tr>
+    <th>Unidade</th>
+    <th>Dashboard BI</th>
+    <th>Pacto BI</th>
+    <th>Diferenca</th>
+    <th>Status</th>
+  </tr>
+  <tr><td>Paulinia</td><td>799</td><td>799</td><td>0</td><td style="color:green;font-weight:700">EXATO</td></tr>
+  <tr><td>Mogi Mirim</td><td>1.244</td><td>1.244</td><td>0</td><td style="color:green;font-weight:700">EXATO</td></tr>
+  <tr><td>Malibu 24 Horas</td><td>669</td><td>669</td><td>0</td><td style="color:green;font-weight:700">EXATO</td></tr>
+  <tr><td>Americanas</td><td>1.104</td><td>~1.104</td><td>~0</td><td style="color:green;font-weight:700">OK</td></tr>
+  <tr><td>Piracicaba</td><td>1.052</td><td>~1.052</td><td>~0</td><td style="color:green;font-weight:700">OK</td></tr>
+  <tr><td>Pres. Prudente</td><td>1.707</td><td>~1.707</td><td>~0</td><td style="color:green;font-weight:700">OK</td></tr>
+  <tr><td>Sorocaba</td><td>1.071</td><td>~1.071</td><td>~0</td><td style="color:green;font-weight:700">OK</td></tr>
+  <tr><td>Mogi Guacu</td><td>584</td><td>587</td><td>-3</td><td style="color:#e65100;font-weight:700">FERIAS (3)</td></tr>
+  <tr><td>Aracatuba</td><td>1.918</td><td>1.929</td><td>-11</td><td style="color:#e65100;font-weight:700">FERIAS/ATESTADO</td></tr>
+  <tr><td>Araras</td><td>1.555</td><td>1.571</td><td>-16</td><td style="color:#e65100;font-weight:700">RN + FERIAS</td></tr>
+  <tr><td>Sao Joao</td><td>1.020</td><td>1.066</td><td>-46</td><td style="color:#e65100;font-weight:700">RN + outros</td></tr>
+</table>
+
+<h3>14.2 Tres causas identificadas</h3>
+
+<div class="note">
+  <strong>Causa 1 — Status "Renovado" (RN) nao exposto:</strong><br>
+  A API /clientes retorna <code>situacao</code> simplificado. O codigo interno "RN" (Renovado &mdash; cliente que mudou de plano)
+  nao aparece na resposta. Esses clientes vem como <code>situacao=INATIVO</code> mas o Pacto BI conta como ativos.
+  <strong>Impacto estimado:</strong> Principal causa da divergencia de Sao Joao (-46) e Araras (-16).
+</div>
+
+<div class="note">
+  <strong>Causa 2 — Filtro "Desconsiderar cancelados por mudanca de plano":</strong><br>
+  O Pacto BI tem um filtro que re-inclui clientes cancelados por mudanca de plano. A API nao fornece o campo
+  "motivo do cancelamento" de forma util. Testamos os campos <code>motivo</code>, <code>mudanca</code>,
+  <code>razao</code>, <code>observacao</code> &mdash; nenhum vem preenchido na resposta de /clientes.
+</div>
+
+<div class="note">
+  <strong>Causa 3 — FERIAS e ATESTADO contados como ativos pelo Pacto BI:</strong><br>
+  Clientes com <code>situacaoContrato=FERIAS</code> ou <code>ATESTADO</code> tem contrato ativo
+  (estao temporariamente afastados). O Pacto BI conta esses como ativos, mas nosso codigo conta
+  pela <code>situacao</code> que ja e ATIVO para a maioria deles.
+  Porem, em alguns casos o <code>situacao</code> vem como INATIVO com <code>situacaoContrato=FERIAS</code>.
+  <strong>Impacto:</strong> Mogi Guacu teria exatamente 587 se incluisse FERIAS (+3).
+</div>
+
+<h3>14.3 Distribuicao de situacaoContrato por unidade (dados reais)</h3>
+<table style="font-size: 11px;">
+  <tr>
+    <th>Unidade</th><th>NORMAL</th><th>A_VENCER</th><th>FERIAS</th><th>ATESTADO</th>
+    <th>INATIVO_VENCIDO</th><th>DESISTENTE</th><th>CANCELADO</th><th>NULL</th>
+  </tr>
+  <tr><td>Americanas</td><td>1017</td><td>77</td><td>9</td><td>1</td><td>7</td><td>263</td><td>118</td><td>4489</td></tr>
+  <tr><td>Mogi Guacu</td><td>572</td><td>11</td><td>3</td><td>0</td><td>17</td><td>1273</td><td>645</td><td>9211</td></tr>
+  <tr><td>Aracatuba</td><td>1875</td><td>50</td><td>8</td><td>7</td><td>36</td><td>3169</td><td>707</td><td>7196</td></tr>
+  <tr><td>Piracicaba</td><td>975</td><td>75</td><td>4</td><td>1</td><td>33</td><td>721</td><td>297</td><td>5036</td></tr>
+  <tr><td>Pres. Prudente</td><td>1657</td><td>49</td><td>2</td><td>1</td><td>8</td><td>269</td><td>180</td><td>3869</td></tr>
+  <tr><td>Sao Joao</td><td>939</td><td>76</td><td>5</td><td>0</td><td>26</td><td>652</td><td>336</td><td>3903</td></tr>
+  <tr><td>Araras</td><td>1488</td><td>62</td><td>5</td><td>1</td><td>4</td><td>891</td><td>693</td><td>4018</td></tr>
+  <tr><td>Mogi Mirim</td><td>1198</td><td>49</td><td>5</td><td>4</td><td>16</td><td>912</td><td>415</td><td>5798</td></tr>
+  <tr><td>Paulinia</td><td>745</td><td>41</td><td>12</td><td>1</td><td>10</td><td>143</td><td>34</td><td>3188</td></tr>
+  <tr><td>Malibu 24h</td><td>610</td><td>59</td><td>0</td><td>0</td><td>15</td><td>2361</td><td>769</td><td>9988</td></tr>
+  <tr><td>Sorocaba</td><td>955</td><td>112</td><td>0</td><td>4</td><td>41</td><td>603</td><td>266</td><td>9030</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s15">15. Dados Coletados por Unidade (Abril/2026)</h2>
+<!-- ============================================================ -->
+
+<table>
+  <tr>
+    <th>Unidade</th>
+    <th>Total Registros</th>
+    <th>Ativos</th>
+    <th>Visitantes</th>
+    <th>Inativos</th>
+    <th>Inadimplentes</th>
+    <th>Receita (R$)</th>
+    <th>Gympass (Sheety)</th>
+  </tr>
+  <tr><td>Americanas</td><td>5.981</td><td>1.104</td><td>4.489</td><td>388</td><td>7</td><td>105.118</td><td>1.786</td></tr>
+  <tr><td>Mogi Guacu</td><td>11.732</td><td>584</td><td>9.213</td><td>1.935</td><td>17</td><td>53.967</td><td>1.945</td></tr>
+  <tr><td>Aracatuba</td><td>13.048</td><td>1.918</td><td>7.218</td><td>3.912</td><td>36</td><td>180.921</td><td>624</td></tr>
+  <tr><td>Piracicaba</td><td>7.142</td><td>1.052</td><td>5.039</td><td>1.051</td><td>33</td><td>125.387</td><td>1.635</td></tr>
+  <tr><td>Pres. Prudente</td><td>6.035</td><td>1.707</td><td>3.871</td><td>457</td><td>8</td><td>171.182</td><td>1.169</td></tr>
+  <tr><td>Sao Joao</td><td>5.938</td><td>1.020</td><td>3.903</td><td>1.014</td><td>26</td><td>102.967</td><td>1.319</td></tr>
+  <tr><td>Araras</td><td>7.162</td><td>1.555</td><td>4.019</td><td>1.588</td><td>4</td><td>164.075</td><td>771</td></tr>
+  <tr><td>Mogi Mirim</td><td>8.397</td><td>1.244</td><td>5.810</td><td>1.343</td><td>16</td><td>107.199</td><td>1.606</td></tr>
+  <tr><td>Paulinia</td><td>4.174</td><td>799</td><td>3.188</td><td>187</td><td>10</td><td>67.622</td><td>1.448</td></tr>
+  <tr><td>Malibu 24h</td><td>13.802</td><td>669</td><td>9.985</td><td>3.145</td><td>15</td><td>62.274</td><td>1.194</td></tr>
+  <tr><td>Sorocaba</td><td>11.011</td><td>1.071</td><td>9.030</td><td>910</td><td>41</td><td>100.386</td><td>2.869</td></tr>
+  <tr style="font-weight:700; background:#f0f0f0">
+    <td>TOTAL</td><td>94.422</td><td>12.723</td><td>65.765</td><td>15.930</td><td>213</td><td>1.241.098</td><td>16.366</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s16">16. Todos os Endpoints Testados</h2>
+<!-- ============================================================ -->
+
+<table style="font-size: 12px;">
+  <tr><th>Endpoint</th><th>Metodo</th><th>Status</th><th>Resultado</th><th>Uso atual</th></tr>
+  <tr><td><code>/clientes?page=X&size=2000</code></td><td>GET</td><td style="color:green">200 OK</td><td>Lista paginada de clientes</td><td><strong>PRINCIPAL</strong></td></tr>
+  <tr><td><code>/clientes?nome=X</code></td><td>GET</td><td style="color:green">200 OK</td><td>Busca por nome</td><td>Busca</td></tr>
+  <tr><td><code>/clientes/{id}/parcelas?situacao=EA</code></td><td>GET</td><td style="color:green">200 OK</td><td>Parcelas em aberto</td><td>Inadimplencia</td></tr>
+  <tr><td><code>/clientes?situacao=ATIVO</code></td><td>GET</td><td style="color:red">500</td><td>Bug do Pacto</td><td>Nao usado</td></tr>
+  <tr><td><code>/v1/bi/resumo</code></td><td>GET</td><td style="color:green">200 OK</td><td>Faturamento por mes</td><td><strong>FATURAMENTO</strong></td></tr>
+  <tr><td><code>/v2-gym-pass</code></td><td>POST</td><td style="color:red">500</td><td>Bug do Pacto</td><td>Fallback Sheety</td></tr>
+  <tr><td><code>/movimentacao-contrato</code></td><td>GET</td><td style="color:red">500</td><td>Bug do Pacto</td><td>Desativado</td></tr>
+  <tr><td><code>/psec/empresas/ativas</code></td><td>GET</td><td style="color:green">200 OK</td><td>Lista empresas ativas</td><td>Descoberta</td></tr>
+  <tr><td><code>/psec/empresas/empdto/{id}</code></td><td>GET</td><td style="color:green">200 OK</td><td>Detalhes empresa por ID</td><td>Descoberta</td></tr>
+  <tr><td><code>/empresa/empresas</code></td><td>GET</td><td style="color:green">200 OK</td><td>Lista empresas do token</td><td>Descoberta</td></tr>
+  <tr><td><code>/rel-clientes/situacao</code></td><td>GET</td><td style="color:orange">null</td><td>Retorna null</td><td>Desativado</td></tr>
+  <tr><td><code>/rel-contratos/situacao</code></td><td>GET</td><td style="color:green">200 OK</td><td>Codigos internos (NO,AV,etc)</td><td>Debug apenas</td></tr>
+  <tr><td><code>/modalidades</code></td><td>GET</td><td style="color:green">200 OK</td><td>Tipos de plano</td><td>Cadastro</td></tr>
+  <tr><td><code>/contratos?page=0&size=1</code></td><td>GET</td><td style="color:red">404/500</td><td>Nao disponivel</td><td>Nao usado</td></tr>
+  <tr><td><code>/cancelamento-contrato/contratos-ativos</code></td><td>GET</td><td style="color:orange">403</td><td>Sem permissao</td><td>Nao usado</td></tr>
+  <tr><td><code>/d2/clientes?page=0&size=1</code></td><td>GET</td><td style="color:green">200 OK</td><td>Endpoint alternativo</td><td>Nao usado</td></tr>
+  <tr><td><code>/empresa</code></td><td>GET</td><td style="color:green">200 OK</td><td>Info da empresa</td><td>Descoberta</td></tr>
+  <tr><td><code>/usuario</code></td><td>GET</td><td>Variado</td><td>Dados do usuario API</td><td>Debug</td></tr>
+  <tr><td><code>/scopes?page=0&size=100</code></td><td>GET</td><td style="color:green">200 OK</td><td>Permissoes do token</td><td>Debug</td></tr>
+  <tr><td><code>/dashboard</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/resumo</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/indicadores</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/inadimplencia</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/configuracao</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/unidade</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+  <tr><td><code>/perfil</code></td><td>GET</td><td style="color:red">404</td><td>Nao existe</td><td>-</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s17">17. Exemplos cURL</h2>
+<!-- ============================================================ -->
+
+<h3>Buscar clientes (pagina 1 de 2000)</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/clientes?page=0&size=2000" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json"</pre>
+
+<h3>Buscar faturamento (mes atual + anterior)</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/v1/bi/resumo?mesInicial=2026-03&mesFinal=2026-04" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json" \
+  -H "empresaId: 1"</pre>
+
+<h3>Buscar Gympass (quando endpoint funcionar)</h3>
+<pre>curl -X POST \
+  "https://apigw.pactosolucoes.com.br/v2-gym-pass" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{"dataInicio":"2026-04-01","dataFim":"2026-04-30"}'</pre>
+
+<h3>Buscar contratos ativos (quando endpoint for corrigido)</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/movimentacao-contrato?indicador=CONTRATOS_ATIVOS_MES_ATUAL&page=0&size=1" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json"</pre>
+
+<h3>Descobrir empresa ID</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/psec/empresas/ativas" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json"</pre>
+
+<h3>Buscar parcelas em aberto de um cliente</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/clientes/12345/parcelas?situacao=EA" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json"</pre>
+
+<h3>Buscar codigos internos de status</h3>
+<pre>curl -X GET \
+  "https://apigw.pactosolucoes.com.br/rel-contratos/situacao" \
+  -H "Authorization: Bearer {TOKEN}" \
+  -H "accept: application/json"</pre>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 id="s18">18. Problemas Conhecidos e Solucoes Futuras</h2>
+<!-- ============================================================ -->
+
+<table>
+  <tr><th>Problema</th><th>Impacto</th><th>Solucao</th><th>Depende de</th></tr>
+  <tr>
+    <td><code>/movimentacao-contrato</code> retorna HTTP 500</td>
+    <td>Nao temos contagem autoritativa de ativos</td>
+    <td>Habilitar <code>MOVIMENTACAO_ENABLED=true</code> quando corrigido</td>
+    <td>Pacto corrigir o bug</td>
+  </tr>
+  <tr>
+    <td><code>/v2-gym-pass</code> retorna HTTP 500</td>
+    <td>Gympass vem de planilha manual</td>
+    <td>Usar API direta quando voltar</td>
+    <td>Pacto corrigir o bug</td>
+  </tr>
+  <tr>
+    <td>Status "Renovado" (RN) nao exposto</td>
+    <td>-3 a -46 ativos em 4 unidades</td>
+    <td>Incluir FERIAS/ATESTADO como ativos; ou usar /movimentacao-contrato</td>
+    <td>Decisao interna ou Pacto</td>
+  </tr>
+  <tr>
+    <td>Tokens no bundle frontend (VITE_)</td>
+    <td>Tokens visiveis no JavaScript</td>
+    <td>Mover para API Routes server-side</td>
+    <td>Refatoracao</td>
+  </tr>
+  <tr>
+    <td><code>/clientes?situacao=ATIVO</code> retorna 500</td>
+    <td>Nao podemos filtrar server-side</td>
+    <td>Paginar tudo e filtrar client-side</td>
+    <td>Ja implementado (workaround)</td>
+  </tr>
+  <tr>
+    <td>Header empresaId ignorado em /clientes</td>
+    <td>Token compartilhado retorna tudo junto</td>
+    <td>Filtrar por campo empresa (empresaNome)</td>
+    <td>Ja implementado (workaround)</td>
+  </tr>
+</table>
+
+<div class="note-green">
+  <strong>Prioridade #1 para resolver divergencias:</strong> Quando o Pacto corrigir o endpoint
+  <code>/movimentacao-contrato</code>, basta ativar a flag no codigo e os numeros baterao 100%
+  com o Pacto BI, sem necessidade de qualquer logica de contagem no nosso lado.
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center; margin-top:50px; padding-top:20px; border-top:2px solid #eee;">
+  <p style="color:#999; font-size:11px;">
+    Malibu BI &mdash; Documentacao Tecnica Completa da API Pacto<br>
+    Versao 1.0 &mdash; Abril 2026<br>
+    Gerado automaticamente a partir da analise do codebase
+  </p>
+</div>
+
+</body>
+</html>

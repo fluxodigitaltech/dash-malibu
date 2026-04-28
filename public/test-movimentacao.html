@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Teste /movimentacao-contrato</title>
+<style>
+body { font-family: monospace; background: #1a1a2e; color: #0f0; padding: 20px; }
+h1 { color: #fff; }
+.test { background: #16213e; padding: 10px; margin: 8px 0; border-radius: 4px; }
+.ok { border-left: 4px solid #0f0; }
+.fail { border-left: 4px solid #f00; }
+.warn { border-left: 4px solid #ff0; }
+pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; }
+button { background: #e94560; color: #fff; border: none; padding: 12px 24px; font-size: 16px; cursor: pointer; border-radius: 4px; margin: 10px 5px; }
+button:hover { background: #c73e54; }
+#output { margin-top: 20px; }
+select, input { background: #16213e; color: #0f0; border: 1px solid #333; padding: 6px; margin: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+<h1>Teste /movimentacao-contrato</h1>
+<p style="color:#aaa">Testa o endpoint com diferentes combinacoes de filtros pra descobrir o que funciona.</p>
+
+<div>
+  <label style="color:#fff">Indicador:</label>
+  <select id="indicador">
+    <option value="CONTRATOS_ATIVOS_MES_ATUAL">CONTRATOS_ATIVOS_MES_ATUAL</option>
+    <option value="CONTRATOS_ATIVOS_MES_ANTERIOR">CONTRATOS_ATIVOS_MES_ANTERIOR</option>
+    <option value="CONTRATOS_TODOS_MES_ATUAL">CONTRATOS_TODOS_MES_ATUAL</option>
+    <option value="MATRICULADOS_ATE_HOJE">MATRICULADOS_ATE_HOJE</option>
+    <option value="CANCELADOS_ATE_HOJE">CANCELADOS_ATE_HOJE</option>
+    <option value="TRANCADOS_ATE_HOJE">TRANCADOS_ATE_HOJE</option>
+    <option value="AGREGADORES_VINCULADOS_ATE_HOJE">AGREGADORES_VINCULADOS_ATE_HOJE</option>
+    <option value="REMATRICULADOS_ATE_HOJE">REMATRICULADOS_ATE_HOJE</option>
+    <option value="DESISTENCIA_ATE_HOJE">DESISTENCIA_ATE_HOJE</option>
+    <option value="CONTRATOS_VENCIDOS_MES_ATUAL">CONTRATOS_VENCIDOS_MES_ATUAL</option>
+    <option value="CONTRATOS_VENCIDOS_MES_ANTERIOR">CONTRATOS_VENCIDOS_MES_ANTERIOR</option>
+  </select>
+</div>
+
+<button onclick="runAllTests()">Rodar Todos os Testes (1 indicador, varias combinacoes de filtro)</button>
+<button onclick="runQuickProbe()">Probe Rapido (todos indicadores, sem filtro)</button>
+
+<div id="output"></div>
+
+<script>
+const API = '/api/pacto';
+// Token sera pego via Vercel rewrite - nao precisa de token aqui,
+// mas precisamos ver qual token o proxy usa.
+// Na verdade o proxy do Vercel so faz rewrite da URL, nao adiciona token.
+// O token precisa ir no header Authorization.
+
+// Vamos pegar os tokens do app. Como estamos em public/, nao temos acesso ao import.meta.env.
+// Solucao: pegar via API interna ou hardcode pra teste.
+
+// Tokens ficam no Vercel env. Vou usar um approach diferente:
+// Criar os requests no formato que o client.ts usa (via /api/pacto/ proxy)
+// MAS o proxy nao adiciona Authorization. O client.ts adiciona no fetch.
+
+// Entao preciso dos tokens. Vou listar aqui pra teste:
+const TOKENS = {};
+// Os tokens serao preenchidos pelo usuario no console:
+// TOKENS.AMERICANAS = "eyJ..."
+
+const out = document.getElementById('output');
+
+function log(html) {
+  out.innerHTML += html;
+}
+
+async function testCall(label, indicador, filters, token) {
+  let url = `/api/pacto/movimentacao-contrato?indicador=${indicador}&page=0&size=1`;
+  if (filters) {
+    url += `&filters=${encodeURIComponent(JSON.stringify(filters))}`;
+  }
+
+  const start = Date.now();
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    const elapsed = Date.now() - start;
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch { data = text; }
+
+    const status = res.status;
+    const cls = status === 200 ? (data?.totalElements > 0 ? 'ok' : 'warn') : 'fail';
+    const total = data?.totalElements ?? 'N/A';
+
+    log(`<div class="test ${cls}">
+      <b>${label}</b> | HTTP ${status} | ${elapsed}ms | totalElements: ${total}
+      <pre>${JSON.stringify(data, null, 2).slice(0, 500)}</pre>
+      <small style="color:#666">${url}</small>
+    </div>`);
+
+    return { status, data, total };
+  } catch (e) {
+    log(`<div class="test fail">
+      <b>${label}</b> | ERRO: ${e.message}
+      <small style="color:#666">${url}</small>
+    </div>`);
+    return { status: 0, error: e.message };
+  }
+}
+
+async function runAllTests() {
+  const token = prompt('Cole o token Bearer de uma unidade (ex: Paulinia):');
+  if (!token) return;
+
+  const indicador = document.getElementById('indicador').value;
+  out.innerHTML = `<h2>Testando ${indicador} com varias combinacoes de filtro...</h2>`;
+
+  const now = new Date();
+  const inicioMes = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const fimMes = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999).toISOString();
+  const inicioMesAnterior = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString();
+  const fimMesAnterior = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999).toISOString();
+
+  // Teste 1: Sem filtro nenhum
+  await testCall('1. Sem filtro', indicador, null, token);
+
+  // Teste 2: Só empresa=1
+  await testCall('2. empresa=1', indicador, { empresa: 1 }, token);
+
+  // Teste 3: empresa=1 + inicio + fim (mes atual)
+  await testCall('3. empresa=1 + mes atual', indicador, {
+    empresa: 1, inicio: inicioMes, fim: fimMes
+  }, token);
+
+  // Teste 4: empresa=1 + inicio + fim (mes anterior)
+  await testCall('4. empresa=1 + mes anterior', indicador, {
+    empresa: 1, inicio: inicioMesAnterior, fim: fimMesAnterior
+  }, token);
+
+  // Teste 5: Só inicio + fim (sem empresa)
+  await testCall('5. Sem empresa, mes atual', indicador, {
+    inicio: inicioMes, fim: fimMes
+  }, token);
+
+  // Teste 6: empresa=1 + inicio + fim (ano inteiro)
+  await testCall('6. empresa=1 + ano inteiro', indicador, {
+    empresa: 1,
+    inicio: `${now.getFullYear()}-01-01T00:00:00.000Z`,
+    fim: `${now.getFullYear()}-12-31T23:59:59.999Z`
+  }, token);
+
+  // Teste 7: Filtro vazio {}
+  await testCall('7. Filtro vazio {}', indicador, {}, token);
+
+  log('<h3 style="color:#fff">Testes concluidos!</h3>');
+}
+
+async function runQuickProbe() {
+  const token = prompt('Cole o token Bearer de uma unidade (ex: Paulinia):');
+  if (!token) return;
+
+  out.innerHTML = '<h2>Probe rapido - todos indicadores sem filtro...</h2>';
+
+  const indicadores = [
+    'CONTRATOS_ATIVOS_MES_ATUAL',
+    'CONTRATOS_ATIVOS_MES_ANTERIOR',
+    'CONTRATOS_TODOS_MES_ATUAL',
+    'CONTRATOS_VENCIDOS_MES_ATUAL',
+    'MATRICULADOS_ATE_HOJE',
+    'CANCELADOS_ATE_HOJE',
+    'REMATRICULADOS_ATE_HOJE',
+    'TRANCADOS_ATE_HOJE',
+    'DESISTENCIA_ATE_HOJE',
+    'AGREGADORES_VINCULADOS_ATE_HOJE',
+    'MATRICULADOS_HOJE',
+    'CANCELADOS_HOJE',
+  ];
+
+  for (const ind of indicadores) {
+    await testCall(ind, ind, null, token);
+    // Rate limit: esperar 1s entre requests
+    await new Promise(r => setTimeout(r, 1000));
+  }
+
+  log('<h3 style="color:#fff">Probe concluido!</h3>');
+}
+</script>
+</body>
+</html>
